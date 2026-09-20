@@ -10,21 +10,17 @@
  * Role decisions MUST be made exclusively by the server.
  */
 
-const DEFAULT_ADMIN_EMAILS = [
+const STRICT_ADMIN_EMAILS = [
   'vu.241fa04491@gmail.com',
   'sahithi@2201',
 ];
 
 /**
  * Returns the list of authorized admin emails in normalized (lowercase, trimmed) form.
+ * STRICT DIRECTIVE: ONLY these two emails can EVER receive admin privileges.
  */
 export const getAdminEmails = () => {
-  if (process.env.ADMIN_EMAILS) {
-    return process.env.ADMIN_EMAILS.split(',')
-      .map((e) => e.trim().toLowerCase())
-      .filter(Boolean);
-  }
-  return DEFAULT_ADMIN_EMAILS.map((e) => e.trim().toLowerCase());
+  return STRICT_ADMIN_EMAILS.map((e) => e.trim().toLowerCase());
 };
 
 /**

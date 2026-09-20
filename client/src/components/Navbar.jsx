@@ -103,12 +103,18 @@ const Navbar = () => {
         <div className="navbar-auth-actions">
           {!isAuthenticated ? (
             <div className="auth-btn-group">
-              <Link to="/login" className="btn-ghost">
+              <NavLink
+                to="/login"
+                className={({ isActive }) => (isActive ? 'btn-ghost active' : 'btn-ghost')}
+              >
                 Sign In
-              </Link>
-              <Link to="/register" className="btn-secondary btn-sm">
+              </NavLink>
+              <NavLink
+                to="/register"
+                className={({ isActive }) => (isActive ? 'btn-secondary btn-sm active' : 'btn-secondary btn-sm')}
+              >
                 Get Started
-              </Link>
+              </NavLink>
             </div>
           ) : (
             <div className="user-action-group">

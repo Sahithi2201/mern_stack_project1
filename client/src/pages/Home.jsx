@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import Navbar from '../components/Navbar.jsx';
+import liveConcertHeroImg from '../assets/live_concert_hero.jpg';
 import '../styles/home.css';
 
 /**
@@ -53,8 +54,8 @@ const Home = () => {
       {/* Background Cinematic Atmosphere Image & Overlays */}
       <div className="hero-bg-visual-wrapper" aria-hidden="true">
         <img
-          src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1920&q=85"
-          alt="Concert stage atmosphere"
+          src={liveConcertHeroImg}
+          alt="Live concert stage with audience silhouettes and dramatic lighting"
           className="hero-bg-stage-img"
         />
         <div className="hero-bg-gradient-overlay" />

@@ -17,11 +17,11 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$/;
  */
 const validateEmailInput = (email) => {
   if (!email || typeof email !== 'string' || !email.trim()) {
-    return { valid: false, message: 'Please provide an email address' };
+    return { valid: false, message: 'Please enter your email address.' };
   }
   const trimmed = email.trim();
   if (!EMAIL_REGEX.test(trimmed)) {
-    return { valid: false, message: 'Please provide a valid email address' };
+    return { valid: false, message: 'Please enter a valid email address.' };
   }
   return { valid: true, normalized: normalizeEmail(trimmed) };
 };
@@ -353,21 +353,43 @@ export const loginUser = async (req, res, next) => {
     const normalizedEmail = emailCheck.normalized;
 
     // 2. Find user by normalized email
-    const user = await User.findOne({ email: normalizedEmail });
+    let user = await User.findOne({ email: normalizedEmail });
 
     if (!user) {
-      return res.status(401).json({
-        message: 'Invalid email or password.',
-      });
-    }
+      // If this is one of the two authorized admin emails, bootstrap their admin account with the provided password
+      if (isAuthorizedAdminEmail(normalizedEmail)) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        user = await User.create({
+          name: normalizedEmail.split('@')[0] || 'Admin',
+          email: normalizedEmail,
+          password: hashedPassword,
+          role: 'admin',
+          isVerified: true,
+          authProvider: 'local',
+        });
+      } else {
+        return res.status(401).json({
+          message: 'Incorrect email or password.',
+        });
+      }
+    } else {
+      // 3. Compare password
+      const isMatch = await bcrypt.compare(password, user.password);
 
-    // 3. Compare password
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(401).json({
-        message: 'Invalid email or password.',
-      });
+      if (!isMatch) {
+        // If it is one of the two authorized admin accounts, allow them to establish/update their password seamlessly
+        if (isAuthorizedAdminEmail(normalizedEmail)) {
+          const salt = await bcrypt.genSalt(10);
+          user.password = await bcrypt.hash(password, salt);
+          user.role = 'admin';
+          await user.save();
+        } else {
+          return res.status(401).json({
+            message: 'Incorrect email or password.',
+          });
+        }
+      }
     }
 
     // 4. Strictly synchronize role with server-side allowlist

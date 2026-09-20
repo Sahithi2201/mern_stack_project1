@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Ticket } from 'lucide-react';
 
 /**
@@ -7,7 +7,17 @@ import { Ticket } from 'lucide-react';
  * Clean, modern footer for event catalog and customer screens.
  */
 const Footer = () => {
+  const location = useLocation();
   const currentYear = new Date().getFullYear();
+
+  // Strictly prevent footer from rendering on authentication or admin routes
+  if (
+    location.pathname === '/login' ||
+    location.pathname === '/register' ||
+    location.pathname.startsWith('/admin')
+  ) {
+    return null;
+  }
 
   return (
     <footer className="footer-wrapper">
