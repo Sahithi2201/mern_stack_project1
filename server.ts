@@ -51,8 +51,11 @@ async function startServer() {
   app.use('/api/admin', adminRoutes);
 
   // Error handling middleware for API routes
-  app.use('/api', (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    errorHandler(err, req, res, next);
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (req.path.startsWith('/api')) {
+      return errorHandler(err, req, res, next);
+    }
+    next(err);
   });
 
   // Vite middleware for development / Static serving for production
