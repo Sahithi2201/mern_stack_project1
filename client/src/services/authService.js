@@ -2,7 +2,7 @@ import api from './api.js';
 
 /**
  * Authentication Service
- * Handles user registration, login, profile retrieval, and token management
+ * Handles user registration, login, profile retrieval, OTP flows, and Google auth
  */
 
 // Register a new user account
@@ -11,9 +11,27 @@ export const registerUser = async (userData) => {
   return response.data;
 };
 
-// Log in an existing user
+// Log in an existing user with password
 export const loginUser = async (credentials) => {
   const response = await api.post('/auth/login', credentials);
+  return response.data;
+};
+
+// Send OTP code to email
+export const sendOtp = async (email) => {
+  const response = await api.post('/auth/send-otp', { email });
+  return response.data;
+};
+
+// Verify OTP code and authenticate
+export const verifyOtp = async (email, otp) => {
+  const response = await api.post('/auth/verify-otp', { email, otp });
+  return response.data;
+};
+
+// Google Sign-In authentication
+export const googleSignIn = async (googleData) => {
+  const response = await api.post('/auth/google', googleData);
   return response.data;
 };
 
@@ -32,6 +50,9 @@ export const logoutUser = () => {
 export default {
   registerUser,
   loginUser,
+  sendOtp,
+  verifyOtp,
+  googleSignIn,
   getCurrentUser,
   logoutUser,
 };

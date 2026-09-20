@@ -2,11 +2,13 @@
  * Client-side validation helpers
  */
 
-// Validate email format
+// Validate email format (supports standard email and local-domain formats like sahithi@2201)
 export const validateEmail = (email) => {
-  if (!email) return false;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email.trim());
+  if (!email || typeof email !== 'string') return false;
+  const trimmed = email.trim();
+  if (!trimmed) return false;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$/;
+  return emailRegex.test(trimmed);
 };
 
 // Validate password (min 6 characters)

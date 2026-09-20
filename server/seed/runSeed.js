@@ -15,34 +15,11 @@ async function runStandaloneSeed() {
     await connectDB();
     console.log('Connected to MongoDB');
 
-    // 1. Ensure admin and demo user exist
-    const adminEmail = 'admin@example.com';
-    const existingAdmin = await User.findOne({ email: adminEmail });
-    if (!existingAdmin) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedAdminPassword = await bcrypt.hash('Admin@123', salt);
-      await User.create({
-        name: 'Admin User',
-        email: adminEmail,
-        password: hashedAdminPassword,
-        role: 'admin',
-      });
-      console.log('Admin user initialized: admin@example.com');
-    }
-
-    const userEmail = 'user@example.com';
-    const existingUser = await User.findOne({ email: userEmail });
-    if (!existingUser) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedUserPassword = await bcrypt.hash('User@123', salt);
-      await User.create({
-        name: 'Demo User',
-        email: userEmail,
-        password: hashedUserPassword,
-        role: 'user',
-      });
-      console.log('Demo customer user initialized: user@example.com');
-    }
+    // 1. Purge any demo accounts
+    await User.deleteMany({
+      email: { $in: ['admin@example.com', 'user@example.com', 'admin@tixora.com', 'demo@gmail.com'] },
+    });
+    console.log('Purged demo accounts');
 
     // 2. Clear only the event collection
     await Event.deleteMany({});

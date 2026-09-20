@@ -9,6 +9,7 @@ import authRoutes from './server/routes/authRoutes.js';
 import eventRoutes from './server/routes/eventRoutes.js';
 import bookingRoutes from './server/routes/bookingRoutes.js';
 import userRoutes from './server/routes/userRoutes.js';
+import adminRoutes from './server/routes/adminRoutes.js';
 import { errorHandler } from './server/middleware/errorMiddleware.js';
 
 // Load environment variables
@@ -47,6 +48,7 @@ async function startServer() {
   app.use('/api/events', eventRoutes);
   app.use('/api/bookings', bookingRoutes);
   app.use('/api/users', userRoutes);
+  app.use('/api/admin', adminRoutes);
 
   // Error handling middleware for API routes
   app.use('/api', (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

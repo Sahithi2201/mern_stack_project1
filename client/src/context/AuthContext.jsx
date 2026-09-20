@@ -32,10 +32,55 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  // Login handler
+  // Standard password login
   const login = async (credentials) => {
     try {
       const data = await authService.loginUser(credentials);
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+        setUser(data.user);
+        return { success: true, user: data.user };
+      }
+      throw new Error('No token returned from server');
+    } catch (error) {
+      const friendlyMessage = getErrorMessage(error);
+      return { success: false, error: friendlyMessage };
+    }
+  };
+
+  // Send OTP
+  const requestOtp = async (email) => {
+    try {
+      const data = await authService.sendOtp(email);
+      return { success: true, data };
+    } catch (error) {
+      const friendlyMessage = getErrorMessage(error);
+      return { success: false, error: friendlyMessage };
+    }
+  };
+
+  // Verify OTP and sign in
+  const verifyOtp = async (email, otp) => {
+    try {
+      const data = await authService.verifyOtp(email, otp);
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        setToken(data.token);
+        setUser(data.user);
+        return { success: true, user: data.user };
+      }
+      throw new Error('No token returned from server');
+    } catch (error) {
+      const friendlyMessage = getErrorMessage(error);
+      return { success: false, error: friendlyMessage };
+    }
+  };
+
+  // Google Sign-In
+  const googleLogin = async (googlePayload) => {
+    try {
+      const data = await authService.googleSignIn(googlePayload);
       if (data.token) {
         localStorage.setItem('token', data.token);
         setToken(data.token);
@@ -80,6 +125,9 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin',
     login,
+    requestOtp,
+    verifyOtp,
+    googleLogin,
     register,
     logout,
   };

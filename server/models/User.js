@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
       match: [
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$/,
         'Please provide a valid email address'
       ],
       index: true
@@ -35,6 +35,15 @@ const userSchema = new mongoose.Schema(
         message: '{VALUE} is not a valid role. Allowed roles are "user" or "admin"'
       },
       default: 'user',
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    authProvider: {
+      type: String,
+      enum: ['local', 'otp', 'google'],
+      default: 'local',
     },
   },
   {

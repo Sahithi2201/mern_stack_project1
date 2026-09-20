@@ -144,7 +144,7 @@ const AdminSidebar = ({ mobileOpen = false, onCloseMobile = () => {} }) => {
             </div>
             <div className="admin-user-details">
               <span className="admin-user-name">{user?.name || 'Administrator'}</span>
-              <span className="admin-user-email">{user?.email || 'admin@example.com'}</span>
+              <span className="admin-user-email">{user?.email || 'Authorized Admin'}</span>
             </div>
           </div>
         </div>
