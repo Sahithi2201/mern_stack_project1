@@ -3,9 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Sparkles,
   ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
-  Zap,
   MapPin,
   Calendar
 } from 'lucide-react';
@@ -236,47 +233,6 @@ const Home = () => {
           </div>
         </div>
       </main>
-
-      {/* =========================================================================
-          3. BOTTOM PREMIUM INDICATORS (Docked at base of 100vh viewport)
-          ========================================================================= */}
-      <footer className="cinematic-indicators-bar">
-        <div className="indicators-container">
-          <div className="indicator-unit">
-            <div className="indicator-icon-ring">
-              <ShieldCheck size={18} />
-            </div>
-            <div className="indicator-text-col">
-              <span className="indicator-title">Secure Booking</span>
-              <span className="indicator-sub">100% Verified Box Office</span>
-            </div>
-          </div>
-
-          <div className="indicator-divider" />
-
-          <div className="indicator-unit">
-            <div className="indicator-icon-ring">
-              <CheckCircle2 size={18} />
-            </div>
-            <div className="indicator-text-col">
-              <span className="indicator-title">Easy Seat Selection</span>
-              <span className="indicator-sub">Interactive Real-time Maps</span>
-            </div>
-          </div>
-
-          <div className="indicator-divider" />
-
-          <div className="indicator-unit">
-            <div className="indicator-icon-ring">
-              <Zap size={18} />
-            </div>
-            <div className="indicator-text-col">
-              <span className="indicator-title">Instant Confirmation</span>
-              <span className="indicator-sub">Instant Digital Tickets</span>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

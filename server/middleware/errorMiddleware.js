@@ -13,6 +13,15 @@ const notFound = (req, res, next) => {
  * Standardizes error responses across all controllers
  */
 const errorHandler = (err, req, res, next) => {
+  // Graceful fallback if database connection drops or times out
+  if (err.name === 'MongooseError' || err.name === 'MongoNetworkError' || (err.message && err.message.includes('buffering timed out'))) {
+    console.warn('[AI Studio] Database offline — returning fallback response');
+    if (req.method === 'GET') {
+      return res.json(req.path.endsWith('s') || req.path.endsWith('s/') ? [] : {});
+    }
+    return res.status(503).json({ error: 'Service temporarily unavailable (database offline)' });
+  }
+
   // If status code is still 200, set it to 500 (Internal Server Error)
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   

@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
+// CRITICAL: fail fast, don't hang if database connection issues occur
+mongoose.set('bufferCommands', false);
+
 let mongoMemoryServer = null;
 
 /**

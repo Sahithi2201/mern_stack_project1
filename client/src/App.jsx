@@ -42,6 +42,22 @@ const CustomerLayout = () => {
   );
 };
 
+/**
+ * Auth Layout Wrapper
+ * Renders the top Navbar and viewport-fitted auth container strictly WITHOUT the footer.
+ * Dedicated for Login and Register pages.
+ */
+const AuthLayout = () => {
+  return (
+    <div className="auth-page-container">
+      <Navbar />
+      <main className="auth-main-content">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
+
 function App() {
   return (
     <Router>
@@ -51,11 +67,14 @@ function App() {
             {/* 1. Full-Screen 100vh Fixed Landing Page */}
             <Route path="/" element={<Home />} />
 
-            {/* 2. Customer Pages with Navbar & Footer */}
-            <Route element={<CustomerLayout />}>
+            {/* 2. Authentication Pages (Navbar + Auth Card, NO Footer, Fits Viewport) */}
+            <Route element={<AuthLayout />}>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+            </Route>
 
+            {/* 3. Customer Pages with Navbar & Footer */}
+            <Route element={<CustomerLayout />}>
               {/* Protected Events Exploration & Details */}
               <Route
                 path="/events"

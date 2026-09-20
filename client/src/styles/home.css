@@ -7,16 +7,19 @@
 /* 1. Global 100vh Viewport Container (Applies ONLY to Landing Page) */
 .landing-page-root {
   position: relative;
-  width: 100vw;
+  width: 100%;
+  max-width: 100vw;
   height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
+  min-height: 100dvh;
   max-height: 100vh;
+  max-height: 100dvh;
   overflow: hidden;
   background-color: #09070B;
   color: #FAF7F0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   box-sizing: border-box;
 }
 

@@ -1349,12 +1349,34 @@ img {
    11. SPLIT SCREEN AUTHENTICATION (LOGIN & REGISTER)
    Left: Velvet + Gold + Tagline
    Right: White Card + Form
+   Fits viewport naturally without unwanted footer or page scrollbar
    ========================================================================== */
+.auth-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(135deg, #FAF8F3 0%, #FFFFFF 55%, #EAF6F5 100%);
+  box-sizing: border-box;
+}
+
+.auth-main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .auth-split-wrapper {
   display: flex;
-  min-height: calc(100vh - 160px);
-  max-width: 1040px;
-  margin: 20px auto;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  max-height: calc(100vh - 110px);
+  max-height: calc(100dvh - 110px);
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
@@ -1366,7 +1388,7 @@ img {
   flex: 1;
   background: linear-gradient(135deg, var(--velvet) 0%, var(--velvet-dark) 100%);
   color: #FFFFFF;
-  padding: 48px;
+  padding: clamp(24px, 3.5vw, 44px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1418,12 +1440,15 @@ img {
 }
 
 .auth-form-side {
-  flex: 1.1;
-  padding: 48px;
+  flex: 1.15;
+  padding: clamp(24px, 3.5vw, 44px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: var(--white);
+  overflow-y: auto;
+  max-height: calc(100vh - 110px);
+  max-height: calc(100dvh - 110px);
 }
 
 .auth-form-header {
@@ -1530,14 +1555,22 @@ img {
 }
 
 @media (max-width: 768px) {
+  .auth-main-content {
+    padding: 16px 12px;
+    align-items: flex-start;
+  }
   .auth-split-wrapper {
     flex-direction: column;
+    max-height: none;
+    margin: 10px auto;
   }
   .auth-brand-side {
-    padding: 32px 24px;
+    padding: 28px 20px;
   }
   .auth-form-side {
-    padding: 32px 24px;
+    padding: 28px 20px;
+    max-height: none;
+    overflow-y: visible;
   }
 }
 
