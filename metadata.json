@@ -1,0 +1,8 @@
+{
+  "name": "Tixora — Event Ticket Booking",
+  "description": "Your Events. Your Seats. Your Moments. A premium MERN stack event ticketing and seat reservation platform with interactive seat maps, real-time booking, and admin management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

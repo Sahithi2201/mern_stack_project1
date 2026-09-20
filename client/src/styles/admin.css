@@ -1,0 +1,328 @@
+/* ==========================================================================
+   TIXORA - ADMIN PORTAL STYLESHEET
+   Theme: GOLD + VELVET + WHITE + BREEZE
+   Professional SaaS-style layout
+   ========================================================================== */
+
+.admin-layout {
+  display: flex;
+  gap: 1.75rem;
+  width: 100%;
+  min-height: calc(100vh - 160px);
+  position: relative;
+}
+
+/* 1. Admin Sidebar (Velvet #4B1735) */
+.admin-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--velvet);
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-md);
+  height: fit-content;
+}
+
+.admin-sidebar-header {
+  padding: 0 0.5rem 1.25rem 0.5rem;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+  margin-bottom: 1.25rem;
+}
+
+.admin-sidebar-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-sidebar-badge {
+  display: inline-block;
+  font-size: 0.675rem;
+  font-weight: 800;
+  background: var(--gold);
+  color: var(--velvet);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.35rem;
+}
+
+.admin-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-xs);
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.925rem;
+  transition: all 0.18s ease;
+}
+
+.admin-nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--gold);
+}
+
+.admin-nav-item.active {
+  background: rgba(201, 162, 39, 0.15);
+  color: var(--gold);
+  font-weight: 700;
+  border-left: 3px solid var(--gold);
+}
+
+.admin-sidebar-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(201, 162, 39, 0.25);
+}
+
+.admin-sidebar-user {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.75rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+.admin-sidebar-user-name {
+  font-weight: 700;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-sidebar-user-email {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 2. Admin Main Content */
+.admin-main-container {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.admin-header-text h1 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--velvet);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.25rem;
+}
+
+.admin-header-text p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* 3. Stat Cards (White cards, Velvet numbers, Gold icons) */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.admin-stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-focus);
+}
+
+.admin-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-stat-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+}
+
+.admin-stat-value {
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: var(--velvet);
+}
+
+.admin-stat-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--breeze);
+  color: var(--gold-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--breeze-border);
+}
+
+/* 4. Clean Tables (Light Breeze Header, Velvet Text, Smooth Hover) */
+.admin-card-table-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.admin-card-header-bar {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.admin-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--velvet);
+}
+
+.admin-table-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: var(--breeze);
+  color: var(--velvet);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.admin-table tbody tr:hover {
+  background-color: #FAF8F3;
+}
+
+.admin-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Action Buttons */
+.btn-table-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--velvet);
+  border: 1px solid var(--velvet);
+  border-radius: var(--radius-xs);
+  transition: all 0.15s ease;
+}
+
+.btn-table-edit:hover {
+  background: var(--velvet);
+  color: #FFFFFF;
+}
+
+.btn-table-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-xs);
+  transition: all 0.15s ease;
+}
+
+.btn-table-delete:hover {
+  background: var(--danger);
+  color: #FFFFFF;
+}
+
+@media (max-width: 900px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+  }
+}

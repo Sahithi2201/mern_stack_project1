@@ -1,0 +1,265 @@
+/* ==========================================================================
+   TIXORA - EVENTS PAGE & CATALOG STYLESHEET
+   Theme: GOLD + VELVET + WHITE + BREEZE
+   ========================================================================== */
+
+.events-page-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* 1. Header */
+.events-header-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.events-headline {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--velvet);
+  margin-bottom: 8px;
+}
+
+.events-tagline {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+/* Quick City Filter Pills */
+.city-pills-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.city-pill-btn {
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.city-pill-btn:hover {
+  border-color: var(--gold);
+  color: var(--velvet);
+  background: var(--cream);
+}
+
+.city-pill-btn.active {
+  background: var(--velvet);
+  border-color: var(--velvet);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(74, 18, 53, 0.25);
+}
+
+/* 2. Large Search Bar (Max Width 780px, Height 54px) */
+.events-search-bar-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.events-search-bar {
+  width: 100%;
+  max-width: 780px;
+  height: 54px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(75, 23, 53, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.events-search-bar:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15), 0 4px 20px rgba(75, 23, 53, 0.08);
+}
+
+.search-bar-icon {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.search-bar-input {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-size: 1rem;
+  color: var(--text);
+  height: 100%;
+}
+
+.search-bar-input::placeholder {
+  color: var(--text-light);
+}
+
+.search-bar-clear-btn {
+  color: var(--text-light);
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.search-bar-clear-btn:hover {
+  color: var(--velvet);
+  background: var(--breeze);
+}
+
+/* 3. Filter Panel (Breeze Container) */
+.events-filter-panel {
+  background: var(--breeze);
+  border: 1px solid #D7ECEA;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 36px;
+}
+
+.filter-controls-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.filter-field-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-field-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--velvet);
+}
+
+.filter-input-card {
+  width: 100%;
+  height: 48px;
+  border-radius: 11px;
+  border: 1px solid var(--border);
+  background-color: var(--white);
+  padding: 0 14px;
+  font-size: 0.925rem;
+  color: var(--text);
+  transition: all 0.18s ease;
+}
+
+.filter-input-card:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+}
+
+.filter-input-card-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filter-card-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--gold-dark);
+  pointer-events: none;
+}
+
+.filter-input-card.has-icon {
+  padding-left: 38px;
+}
+
+/* Clear Filters Action */
+.filters-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(205, 232, 229, 0.8);
+}
+
+.filter-count-badge {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.filter-count-badge strong {
+  color: var(--velvet);
+}
+
+.btn-filter-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--velvet);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 6px 12px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-filter-reset:hover {
+  color: var(--gold-dark);
+  background-color: rgba(75, 23, 53, 0.06);
+}
+
+/* 4. Event Grid (3 columns on desktop, 4 on wide, 2 tablet, 1 mobile) */
+.events-display-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (min-width: 1400px) {
+  .events-display-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .filter-controls-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .events-display-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .filter-controls-row {
+    grid-template-columns: 1fr;
+  }
+  .events-display-grid {
+    grid-template-columns: 1fr;
+  }
+  .events-filter-panel {
+    padding: 16px;
+  }
+}
