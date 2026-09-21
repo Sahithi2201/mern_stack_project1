@@ -1,116 +1,70 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Ticket } from 'lucide-react';
+import { Sparkles, ShieldCheck } from 'lucide-react';
 
 /**
- * TIXORA Global Footer
- * Clean, modern footer for event catalog and customer screens.
+ * TIXORA Global Minimal Footer
+ * Sleek, professional entertainment footer with clean alignment and essential links.
+ * Strictly free of old marketing text, project descriptions, or feature lists.
  */
 const Footer = () => {
   const location = useLocation();
   const currentYear = new Date().getFullYear();
 
-  // Strictly prevent footer from rendering on authentication or admin routes
+  // Strictly prevent footer from rendering on landing page, auth, booking, checkout, confirmation, or admin routes
   if (
+    location.pathname === '/' ||
     location.pathname === '/login' ||
     location.pathname === '/register' ||
-    location.pathname.startsWith('/admin')
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/booking') ||
+    location.pathname.startsWith('/checkout') ||
+    location.pathname.includes('/seats')
   ) {
     return null;
   }
 
   return (
-    <footer className="footer-wrapper">
+    <footer className="footer-wrapper" role="contentinfo">
       <div className="footer-container">
-        <div className="footer-top">
-          {/* Brand Col */}
-          <div className="footer-brand-col">
-            <Link to="/" className="footer-brand-logo" aria-label="Tixora">
-              <div className="footer-brand-icon">
-                <Ticket size={18} />
+        <div className="footer-main-row">
+          {/* Brand & Tagline */}
+          <div className="footer-brand-section">
+            <Link to="/" className="footer-brand-logo" aria-label="Tixora Home">
+              <div className="footer-brand-icon" aria-hidden="true">
+                <Sparkles size={16} />
               </div>
-              <span className="footer-brand-name">TIXORA</span>
+              <span className="footer-brand-name">
+                <span className="footer-brand-tix">TIX</span>
+                <span className="footer-brand-ora">ORA</span>
+              </span>
             </Link>
-            <p className="footer-tagline">Your Events. Your Seats. Your Moments.</p>
-            <p className="footer-desc">
-              A modern MERN-stack ticketing and seat reservation platform crafted for
-              seamless event discovery, interactive seating charts, and instant confirmations.
-            </p>
+            <span className="footer-divider-dot" aria-hidden="true">•</span>
+            <span className="footer-brand-sub">Official Entertainment Ticketing</span>
           </div>
 
-          {/* Nav Col 1 */}
-          <div className="footer-links-col">
-            <h4 className="footer-heading">Platform</h4>
-            <ul className="footer-list">
-              <li>
-                <Link to="/events" className="footer-link">
-                  Discover Events
-                </Link>
-              </li>
-              <li>
-                <Link to="/login" className="footer-link">
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <Link to="/register" className="footer-link">
-                  Create Account
-                </Link>
-              </li>
-              <li>
-                <Link to="/my-bookings" className="footer-link">
-                  My Bookings
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Nav Col 2 */}
-          <div className="footer-links-col">
-            <h4 className="footer-heading">Categories</h4>
-            <ul className="footer-list">
-              <li>
-                <Link to="/events?category=Concert" className="footer-link">
-                  Live Concerts
-                </Link>
-              </li>
-              <li>
-                <Link to="/events?category=Conference" className="footer-link">
-                  Conferences
-                </Link>
-              </li>
-              <li>
-                <Link to="/events?category=Theatre" className="footer-link">
-                  Theatre & Shows
-                </Link>
-              </li>
-              <li>
-                <Link to="/events?category=Sports" className="footer-link">
-                  Sports & Arena
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Features Col */}
-          <div className="footer-links-col">
-            <h4 className="footer-heading">Features</h4>
-            <ul className="footer-list">
-              <li className="footer-feature-item">✓ Interactive Seat Maps</li>
-              <li className="footer-feature-item">✓ Real-Time Availability</li>
-              <li className="footer-feature-item">✓ Instant Digital Tickets</li>
-              <li className="footer-feature-item">✓ Administrative Analytics</li>
-            </ul>
-          </div>
+          {/* Clean Inline Navigation */}
+          <nav className="footer-nav-links" aria-label="Footer Navigation">
+            <Link to="/events" className="footer-nav-item">
+              Browse Events
+            </Link>
+            <Link to="/my-bookings" className="footer-nav-item">
+              My Bookings
+            </Link>
+            <Link to="/profile" className="footer-nav-item">
+              Account
+            </Link>
+          </nav>
         </div>
 
-        <div className="footer-bottom">
-          <p className="footer-copy">
-            © {currentYear} Tixora. All rights reserved.
+        {/* Bottom Legal Row */}
+        <div className="footer-bottom-row">
+          <p className="footer-copyright">
+            TIXORA Live Entertainment
           </p>
-          <div className="footer-meta-badges">
-            <span className="footer-badge">MERN Ticket System</span>
-            <span className="footer-badge">Secure Booking</span>
+          <div className="footer-security-note">
+            <ShieldCheck size={14} aria-hidden="true" />
+            <span>Verified Digital Ticketing</span>
           </div>
         </div>
       </div>

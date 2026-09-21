@@ -1,6 +1,6 @@
 /* ==========================================================================
    TIXORA MASTER DESIGN SYSTEM
-   "Your Events. Your Seats. Your Moments."
+   Premium Event Ticketing & Reservation Platform
    Theme: GOLD + VELVET + WHITE + BREEZE + CINEMATIC DARK
    ========================================================================== */
 
@@ -114,8 +114,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background: linear-gradient(135deg, #FAF8F3 0%, #FFFFFF 55%, #EAF6F5 100%);
-  color: var(--text);
+  background: radial-gradient(circle at 50% 0%, #2A0923 0%, #170414 45%, #0B0209 100%);
+  color: #FAF7F2;
   line-height: 1.6;
   min-height: 100vh;
   margin: 0;
@@ -205,20 +205,13 @@ img {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: radial-gradient(circle at 50% 0%, #2A0923 0%, #170414 45%, #0B0209 100%);
+  color: #FAF7F2;
 }
 
 .main-content {
   flex: 1;
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 36px 24px 64px 24px;
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    padding: 24px 16px 48px 16px;
-  }
 }
 
 /* ==========================================================================
@@ -899,22 +892,23 @@ img {
 }
 
 /* ==========================================================================
-   6. EVENT CARD (WHITE CARD + VELVET BADGE + GOLD ACCENTS)
+   6. EVENT CARD (CINEMATIC VELVET CARD + GOLD ACCENTS)
    ========================================================================== */
 .event-card {
-  background: var(--white);
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(38, 9, 31, 0.95) 0%, rgba(22, 5, 18, 0.95) 100%);
+  border: 1px solid rgba(214, 168, 58, 0.28);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 6px 24px rgba(75, 23, 53, 0.07);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   display: flex;
   flex-direction: column;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
 .event-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(75, 23, 53, 0.12);
+  border-color: var(--gold);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(214, 168, 58, 0.2);
 }
 
 .event-card-media {
@@ -1015,7 +1009,7 @@ img {
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.35;
-  color: var(--velvet);
+  color: #FFFFFF;
   margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -1025,11 +1019,11 @@ img {
 }
 
 .event-card-title a {
-  color: var(--velvet);
+  color: #FFFFFF;
 }
 
 .event-card-title a:hover {
-  color: var(--gold-dark);
+  color: var(--gold-bright);
 }
 
 .event-card-meta-list {
@@ -1044,7 +1038,7 @@ img {
   align-items: center;
   gap: 8px;
   font-size: 0.875rem;
-  color: var(--text-muted);
+  color: #D3C7CE;
 }
 
 .event-card-meta-icon {
@@ -1089,9 +1083,10 @@ img {
 .btn-card-details {
   width: 100%;
   height: 46px;
-  background-color: var(--velvet);
+  background: linear-gradient(135deg, #4A1235 0%, #2E0A22 100%);
+  border: 1px solid rgba(214, 168, 58, 0.35);
   color: #FFFFFF !important;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.925rem;
   border-radius: var(--radius-sm);
   display: flex;
@@ -1103,8 +1098,10 @@ img {
 }
 
 .btn-card-details:hover {
-  background-color: var(--velvet-dark);
-  box-shadow: var(--shadow-gold);
+  background: linear-gradient(135deg, #D4AF37 0%, #B88722 100%);
+  border-color: #F2CB6B;
+  color: #170414 !important;
+  box-shadow: 0 4px 18px rgba(214, 168, 58, 0.35);
   transform: translateY(-1px);
 }
 
@@ -1112,11 +1109,11 @@ img {
    7. SKELETON LOADING SHIMMER CARDS
    ========================================================================== */
 .skeleton-card {
-  background: var(--white);
-  border: 1px solid var(--border);
+  background: rgba(32, 8, 26, 0.85);
+  border: 1px solid rgba(214, 168, 58, 0.2);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
 }
@@ -1268,13 +1265,14 @@ img {
 }
 
 /* ==========================================================================
-   10. FOOTER (CLEAN WHITE/CREAM WITH VELVET & GOLD ACCENTS)
+   10. FOOTER (MINIMAL, SLEEK & PROFESSIONAL ENTERTAINMENT FOOTER)
    ========================================================================== */
 .footer-wrapper {
-  background-color: var(--white);
-  border-top: 1px solid var(--border);
-  padding: 48px 24px 24px 24px;
+  background-color: #120410;
+  border-top: 1px solid rgba(214, 168, 58, 0.18);
+  padding: 24px 24px 20px 24px;
   margin-top: auto;
+  color: #EAF5F3;
 }
 
 .footer-container {
@@ -1282,160 +1280,261 @@ img {
   margin: 0 auto;
 }
 
-.footer-top-row {
+.footer-main-row {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 32px;
-  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-brand-section {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.footer-brand-col {
-  max-width: 400px;
-}
-
-.footer-brand-title {
-  display: flex;
+.footer-brand-logo {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
+  text-decoration: none;
 }
 
-.footer-tagline {
-  font-size: 0.925rem;
-  color: var(--text-muted);
-  line-height: 1.5;
+.footer-brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(214, 168, 58, 0.25) 0%, rgba(214, 168, 58, 0.1) 100%);
+  border: 1px solid rgba(214, 168, 58, 0.4);
+  color: #F2CB6B;
 }
 
-.footer-nav-col h4 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--velvet);
-  margin-bottom: 14px;
-  font-weight: 700;
+.footer-brand-name {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
 }
 
-.footer-nav-col ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.footer-brand-tix {
+  color: #FFFFFF;
 }
 
-.footer-nav-col a {
+.footer-brand-ora {
+  color: #F2CB6B;
+}
+
+.footer-divider-dot {
+  color: rgba(214, 168, 58, 0.5);
   font-size: 0.9rem;
-  color: var(--text-muted);
 }
 
-.footer-nav-col a:hover {
-  color: var(--gold-dark);
+.footer-brand-sub {
+  font-size: 0.85rem;
+  color: rgba(234, 245, 243, 0.7);
+  font-weight: 500;
 }
 
-.footer-bottom-bar {
+.footer-nav-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-nav-item {
+  color: rgba(234, 245, 243, 0.8);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer-nav-item:hover {
+  color: #F2CB6B;
+}
+
+.footer-bottom-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-  font-size: 0.85rem;
-  color: var(--text-light);
+  padding-top: 14px;
+  font-size: 0.8rem;
+  color: rgba(234, 245, 243, 0.55);
   flex-wrap: wrap;
   gap: 12px;
 }
 
+.footer-copyright {
+  margin: 0;
+}
+
+.footer-security-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #F2CB6B;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .footer-main-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-nav-links {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
 /* ==========================================================================
    11. AUTHENTICATION (LOGIN & REGISTER)
-   Centrally positioned premium card with cinematic velvet/gold background
-   Fits viewport naturally without unwanted footer or page scrollbar
+   Single-viewport layout (100vh, overflow: hidden, zero vertical scrollbars)
+   Concert crowd and stage recognizable behind UI with subtle dark velvet overlay
+   Compact, centered 420px–480px card with 20px radius & soft shadow
    ========================================================================== */
-.auth-page-container {
-  display: flex;
-  flex-direction: column;
+.auth-page {
+  width: 100%;
+  height: 100vh;
   min-height: 100vh;
-  min-height: 100dvh;
-  background: radial-gradient(circle at 50% 15%, #381127 0%, #260B1D 55%, #150512 100%);
-  position: relative;
   overflow: hidden;
+  position: relative;
   box-sizing: border-box;
 }
 
-.auth-page-container::before {
-  content: '';
+.auth-background {
   position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px;
-  height: 550px;
-  background: radial-gradient(ellipse at center, rgba(214, 168, 58, 0.08) 0%, rgba(234, 245, 243, 0.02) 45%, transparent 70%);
-  pointer-events: none;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 0;
 }
 
-.auth-main-content {
+.auth-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(35, 5, 25, 0.20),
+    rgba(35, 5, 25, 0.20)
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.auth-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.auth-content .navbar-wrapper {
+  background: rgba(75, 23, 53, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.35);
+  flex-shrink: 0;
+}
+
+.auth-main {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 16px;
-  width: 100%;
+  padding: 12px 20px;
+  overflow: hidden;
   box-sizing: border-box;
-  position: relative;
-  z-index: 1;
-  overflow-y: auto;
 }
 
 .auth-card-centered {
   width: 100%;
   max-width: 440px;
-  background: #FFFFFF;
-  border: 1px solid rgba(214, 168, 58, 0.28);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
-  padding: 38px 32px;
-  box-shadow: 0 24px 60px -12px rgba(15, 3, 11, 0.45), 0 0 1px 1px rgba(214, 168, 58, 0.15);
+  padding: 26px 30px 22px 30px;
+  box-shadow: 0 20px 50px -10px rgba(15, 3, 11, 0.45), 0 0 0 1px rgba(214, 168, 58, 0.15);
   box-sizing: border-box;
-  animation: fadeIn 0.25s ease-out;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .auth-card-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .auth-heading {
   font-family: var(--font-serif);
-  font-size: 1.85rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--velvet-dark);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   letter-spacing: -0.015em;
+  line-height: 1.2;
 }
 
 .auth-subheading {
-  font-size: 0.95rem;
+  font-size: 0.90rem;
   color: var(--text-muted);
-  line-height: 1.45;
+  line-height: 1.35;
   font-weight: 400;
 }
 
 .auth-form-stack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+}
+
+.auth-form-stack.compact {
+  gap: 10px;
 }
 
 .form-group-block {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .form-label-text {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--velvet-dark);
+}
+
+.auth-forgot-link {
+  font-size: 0.80rem;
+  font-weight: 600;
+  color: var(--velvet);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.auth-forgot-link:hover {
+  color: var(--gold-dark);
+  text-decoration: underline;
 }
 
 .form-input-with-icon {
@@ -1457,11 +1556,11 @@ img {
 
 .form-text-input {
   width: 100%;
-  height: 48px;
+  height: 44px;
   padding: 0 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--text);
   background: var(--white);
   transition: all 0.2s ease;
@@ -1469,12 +1568,17 @@ img {
   box-sizing: border-box;
 }
 
+.form-text-input.compact {
+  height: 40px;
+  font-size: 0.88rem;
+}
+
 .form-text-input.has-icon {
   padding-left: 42px;
 }
 
 .form-text-input.has-toggle {
-  padding-right: 44px;
+  padding-right: 42px;
 }
 
 .form-text-input:focus {
@@ -1504,7 +1608,7 @@ img {
 
 .btn-auth-primary {
   width: 100%;
-  height: 48px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1512,13 +1616,13 @@ img {
   background: linear-gradient(135deg, var(--velvet) 0%, var(--velvet-dark) 100%);
   color: #FFFFFF;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.94rem;
   border-radius: 12px;
   border: 1px solid rgba(214, 168, 58, 0.35);
   box-shadow: 0 4px 14px rgba(75, 23, 53, 0.35);
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .btn-auth-primary:hover:not(:disabled) {
@@ -1539,8 +1643,8 @@ img {
 .auth-divider {
   display: flex;
   align-items: center;
-  margin: 18px 0;
-  gap: 14px;
+  margin: 12px 0;
+  gap: 12px;
 }
 
 .auth-divider-line {
@@ -1550,7 +1654,7 @@ img {
 }
 
 .auth-divider-text {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: #9B9196;
   text-transform: uppercase;
@@ -1559,7 +1663,7 @@ img {
 
 .btn-google-auth {
   width: 100%;
-  height: 48px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1569,7 +1673,7 @@ img {
   border-radius: 12px;
   color: #1E293B;
   font-weight: 600;
-  font-size: 0.925rem;
+  font-size: 0.90rem;
   cursor: pointer;
   transition: all 0.18s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -1587,9 +1691,9 @@ img {
 }
 
 .auth-footer-prompt {
-  margin-top: 22px;
+  margin-top: 14px;
   text-align: center;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 
@@ -1605,95 +1709,31 @@ img {
   text-decoration: underline;
 }
 
+/* Responsive height & mobile viewport handling */
+@media (max-height: 700px), (max-width: 640px) {
+  .auth-page {
+    overflow-y: auto;
+  }
+  .auth-content {
+    height: auto;
+    min-height: 100vh;
+  }
+  .auth-main {
+    overflow-y: visible;
+    padding: 20px 16px 28px 16px;
+  }
+  .auth-card-centered {
+    padding: 22px 20px 18px 20px;
+  }
+}
+
 @media (max-width: 480px) {
   .auth-card-centered {
-    padding: 28px 20px;
+    padding: 22px 18px 16px 18px;
     border-radius: 16px;
   }
   .auth-heading {
-    font-size: 1.6rem;
-  }
-}
-
-/* Split-wrapper layout for Register page */
-.auth-split-wrapper {
-  display: flex;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  background: var(--white);
-  border: 1px solid rgba(214, 168, 58, 0.28);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 24px 60px -12px rgba(15, 3, 11, 0.45);
-}
-
-.auth-brand-side {
-  flex: 1;
-  background: linear-gradient(135deg, var(--velvet) 0%, var(--velvet-dark) 100%);
-  color: #FFFFFF;
-  padding: clamp(24px, 3.5vw, 40px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
-
-.auth-brand-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 1;
-}
-
-.auth-hero-text {
-  z-index: 1;
-}
-
-.auth-hero-tagline {
-  font-size: 1.75rem;
-  font-weight: 800;
-  line-height: 1.25;
-  color: #FFFFFF;
-  margin-bottom: 12px;
-}
-
-.auth-hero-sub {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-}
-
-.auth-brand-footer {
-  font-size: 0.8rem;
-  color: rgba(201, 162, 39, 0.9);
-  font-weight: 600;
-  z-index: 1;
-}
-
-.auth-form-side {
-  flex: 1.15;
-  padding: clamp(24px, 3.5vw, 40px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: var(--white);
-}
-
-.auth-form-header {
-  margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-  .auth-split-wrapper {
-    flex-direction: column;
-  }
-  .auth-brand-side {
-    display: none;
-  }
-  .auth-form-side {
-    padding: 24px 18px;
+    font-size: 1.5rem;
   }
 }
 

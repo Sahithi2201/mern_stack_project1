@@ -289,7 +289,7 @@ export const registerUser = async (req, res, next) => {
 
     if (existingUser) {
       return res.status(400).json({
-        message: 'User already exists.',
+        message: 'An account with this email already exists.',
       });
     }
 
@@ -356,40 +356,18 @@ export const loginUser = async (req, res, next) => {
     let user = await User.findOne({ email: normalizedEmail });
 
     if (!user) {
-      // If this is one of the two authorized admin emails, bootstrap their admin account with the provided password
-      if (isAuthorizedAdminEmail(normalizedEmail)) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        user = await User.create({
-          name: normalizedEmail.split('@')[0] || 'Admin',
-          email: normalizedEmail,
-          password: hashedPassword,
-          role: 'admin',
-          isVerified: true,
-          authProvider: 'local',
-        });
-      } else {
-        return res.status(401).json({
-          message: 'Incorrect email or password.',
-        });
-      }
-    } else {
-      // 3. Compare password
-      const isMatch = await bcrypt.compare(password, user.password);
+      return res.status(401).json({
+        message: 'No account found with this email.',
+      });
+    }
 
-      if (!isMatch) {
-        // If it is one of the two authorized admin accounts, allow them to establish/update their password seamlessly
-        if (isAuthorizedAdminEmail(normalizedEmail)) {
-          const salt = await bcrypt.genSalt(10);
-          user.password = await bcrypt.hash(password, salt);
-          user.role = 'admin';
-          await user.save();
-        } else {
-          return res.status(401).json({
-            message: 'Incorrect email or password.',
-          });
-        }
-      }
+    // 3. Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        message: 'Incorrect email or password.',
+      });
     }
 
     // 4. Strictly synchronize role with server-side allowlist

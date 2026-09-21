@@ -31,10 +31,8 @@ const AdminLayout = ({ children, title, subtitle, actions }) => {
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
-            <div className="admin-breadcrumb">
-              <span className="breadcrumb-root">Admin</span>
-              <ChevronRight size={14} className="breadcrumb-separator" />
-              <span className="breadcrumb-current">{title || 'Portal'}</span>
+            <div className="admin-header-brand-mark">
+              <span className="admin-portal-pill">{title || 'Portal'}</span>
             </div>
           </div>
 

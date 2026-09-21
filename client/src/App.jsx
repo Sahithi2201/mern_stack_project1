@@ -18,12 +18,16 @@ import Booking from './pages/Booking.jsx';
 import BookingConfirmation from './pages/BookingConfirmation.jsx';
 import BookingHistory from './pages/BookingHistory.jsx';
 import Profile from './pages/Profile.jsx';
+import TicketVerification from './pages/TicketVerification.jsx';
 
 // Admin Pages
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import ManageEvents from './pages/ManageEvents.jsx';
 import ManageBookings from './pages/ManageBookings.jsx';
 import ManageUsers from './pages/ManageUsers.jsx';
+
+// Live Concert Background Asset (Exact existing asset from Landing Page)
+import liveConcertHeroImg from './assets/live_concert_hero.jpg';
 
 /**
  * Customer Layout Wrapper
@@ -44,16 +48,31 @@ const CustomerLayout = () => {
 
 /**
  * Auth Layout Wrapper
- * Renders the top Navbar and viewport-fitted auth container strictly WITHOUT the footer.
- * Dedicated for Login and Register pages.
+ * Single-viewport authentication screen (100vh, overflow: hidden)
+ * Layout hierarchy:
+ * FULL PAGE BACKGROUND (Live concert image, background-size: cover, lightly visible)
+ *   ↓
+ * VELVET OVERLAY (Subtle dark velvet transparent overlay + soft vignette)
+ *   ↓
+ * TIXORA NAVBAR (Sits OVER the cinematic background, compact ~76px)
+ *   ↓
+ * CENTERED AUTH CARD (420px–480px, perfectly centered horizontally and vertically)
  */
 const AuthLayout = () => {
   return (
-    <div className="auth-page-container">
-      <Navbar />
-      <main className="auth-main-content">
-        <Outlet />
-      </main>
+    <div className="auth-page" id="auth-page-root">
+      <div
+        className="auth-background"
+        style={{ backgroundImage: `url(${liveConcertHeroImg})` }}
+        aria-hidden="true"
+      />
+      <div className="auth-overlay" aria-hidden="true" />
+      <div className="auth-content">
+        <Navbar />
+        <main className="auth-main" role="main">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
@@ -103,6 +122,14 @@ function App() {
                 }
               />
               <Route
+                path="/checkout/:id"
+                element={
+                  <ProtectedRoute>
+                    <Booking initialStep="checkout" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
                 path="/booking-confirmation/:id"
                 element={
                   <ProtectedRoute>
@@ -126,6 +153,9 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              {/* Ticket Gate Verification Portal (Accessible to attendees and gate admins) */}
+              <Route path="/verify-ticket" element={<TicketVerification />} />
+              <Route path="/verify-ticket/:ticketId" element={<TicketVerification />} />
             </Route>
 
             {/* 3. Protected SaaS Admin Routes (Dedicated Admin Shell) */}

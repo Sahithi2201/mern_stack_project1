@@ -115,6 +115,37 @@ export const getEventById = async (req, res, next) => {
       });
     }
 
+    // Automatically release any expired seat holds
+    const now = new Date();
+    let seatExpired = false;
+    if (event.seats) {
+      event.seats.forEach((s) => {
+        if (s.status === 'HELD' && s.holdExpiresAt && new Date(s.holdExpiresAt) <= now) {
+          s.status = 'AVAILABLE';
+          s.heldBy = null;
+          s.holdExpiresAt = null;
+          seatExpired = true;
+        }
+      });
+    }
+    if (event.shows) {
+      event.shows.forEach((show) => {
+        if (show.seats) {
+          show.seats.forEach((s) => {
+            if (s.status === 'HELD' && s.holdExpiresAt && new Date(s.holdExpiresAt) <= now) {
+              s.status = 'AVAILABLE';
+              s.heldBy = null;
+              s.holdExpiresAt = null;
+              seatExpired = true;
+            }
+          });
+        }
+      });
+    }
+    if (seatExpired) {
+      await event.save();
+    }
+
     return res.status(200).json(event);
   } catch (error) {
     next(error);
@@ -130,6 +161,7 @@ export const createEvent = async (req, res, next) => {
   try {
     const {
       name,
+      title,
       description,
       category,
       location,
@@ -138,11 +170,15 @@ export const createEvent = async (req, res, next) => {
       price,
       totalSeats,
       image = '',
+      backgroundImage = '',
+      heroImage = '',
     } = req.body;
+
+    const eventName = (name || title || '').trim();
 
     // 1. Validation for required fields
     if (
-      !name ||
+      !eventName ||
       !description ||
       !category ||
       !location ||
@@ -153,7 +189,7 @@ export const createEvent = async (req, res, next) => {
     ) {
       return res.status(400).json({
         message:
-          'Please provide all required fields: name, description, category, location, date, time, price, totalSeats',
+          'Please provide all required fields: name (or title), description, category, location, date, time, price, totalSeats',
       });
     }
 
@@ -187,7 +223,7 @@ export const createEvent = async (req, res, next) => {
 
     // 6. Create event
     const event = await Event.create({
-      name: name.trim(),
+      name: eventName,
       description: description.trim(),
       category: category.trim(),
       location: location.trim(),
@@ -197,6 +233,8 @@ export const createEvent = async (req, res, next) => {
       totalSeats: parsedTotalSeats,
       availableSeats,
       image: image.trim(),
+      backgroundImage: (backgroundImage || heroImage || image || '').trim(),
+      heroImage: (heroImage || backgroundImage || image || '').trim(),
       seats: generatedSeats,
     });
 
@@ -234,6 +272,7 @@ export const updateEvent = async (req, res, next) => {
 
     const {
       name,
+      title,
       description,
       category,
       location,
@@ -242,6 +281,8 @@ export const updateEvent = async (req, res, next) => {
       price,
       totalSeats,
       image,
+      backgroundImage,
+      heroImage,
     } = req.body;
 
     // Check if totalSeats is being modified
@@ -269,11 +310,14 @@ export const updateEvent = async (req, res, next) => {
 
     // Update standard fields if provided
     if (name !== undefined) event.name = name.trim();
+    else if (title !== undefined) event.name = title.trim();
     if (description !== undefined) event.description = description.trim();
     if (category !== undefined) event.category = category.trim();
     if (location !== undefined) event.location = location.trim();
     if (time !== undefined) event.time = time.trim();
     if (image !== undefined) event.image = image.trim();
+    if (backgroundImage !== undefined) event.backgroundImage = backgroundImage.trim();
+    if (heroImage !== undefined) event.heroImage = heroImage.trim();
 
     if (price !== undefined) {
       const parsedPrice = Number(price);

@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import Booking from '../models/Booking.js';
 import Event from '../models/Event.js';
+import Ticket from '../models/Ticket.js';
+import { broadcastSeatUpdate, broadcastNewBooking } from '../socket.js';
 
 // Helper to check if the current MongoDB connection supports multi-document transactions
 const supportsTransactions = () => {
@@ -9,12 +11,42 @@ const supportsTransactions = () => {
 };
 
 /**
+ * Generate a unique professional booking reference (e.g. TXR-2026-8F4K92)
+ */
+const generateBookingReference = () => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `TXR-${new Date().getFullYear()}-${code}`;
+};
+
+/**
+ * Generate unique ticket ID (TIX-2026-XXXXXX)
+ */
+const generateTicketId = () => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let rand = '';
+  for (let i = 0; i < 6; i++) {
+    rand += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `TIX-${new Date().getFullYear()}-${rand}`;
+};
+
+/**
  * @desc    Create a new ticket booking
  * @route   POST /api/bookings
  * @access  Private (Authenticated users)
  */
 export const createBooking = async (req, res, next) => {
-  const { eventId, selectedSeats } = req.body;
+  const {
+    eventId,
+    selectedSeats,
+    customerInfo,
+    paymentMethod = 'UPI / Card',
+    ticketCategory = 'Gold Pass',
+  } = req.body;
   const userId = req.user._id;
 
   // 1. Validate event ID format
@@ -101,8 +133,14 @@ export const createBooking = async (req, res, next) => {
       });
     }
 
-    // 6. Calculate total amount strictly on the backend
-    const totalAmount = numberOfSeats * event.price;
+    // 6. Calculate pricing strictly on backend
+    const subtotal = numberOfSeats * event.price;
+    const convenienceFee = Math.round(subtotal * 0.05) || 40; // 5% convenience fee
+    const taxes = Math.round(convenienceFee * 0.18); // 18% GST on convenience fee
+    const totalAmount = subtotal + convenienceFee + taxes;
+
+    // Generate unique booking reference
+    const bookingReference = generateBookingReference();
 
     // 7. Mark selected seats as BOOKED and decrement availableSeats
     event.seats.forEach((s) => {
@@ -119,48 +157,72 @@ export const createBooking = async (req, res, next) => {
       await event.save();
     }
 
+    // Customer info defaults
+    const resolvedCustomerInfo = {
+      name: customerInfo?.name || req.user.name || 'Valued Guest',
+      email: customerInfo?.email || req.user.email || '',
+      phone: customerInfo?.phone || '',
+    };
+
     // 8. Create the Booking document
+    const bookingPayload = {
+      user: userId,
+      event: eventId,
+      selectedSeats,
+      numberOfSeats,
+      subtotal,
+      convenienceFee,
+      taxes,
+      totalAmount,
+      bookingReference,
+      ticketCategory,
+      customerInfo: resolvedCustomerInfo,
+      paymentMethod,
+      paymentStatus: 'PAID',
+      status: 'CONFIRMED',
+    };
+
     let booking;
     if (useTransaction && session) {
-      const createdBookings = await Booking.create(
-        [
-          {
-            user: userId,
-            event: eventId,
-            selectedSeats,
-            numberOfSeats,
-            totalAmount,
-            status: 'CONFIRMED',
-          },
-        ],
-        { session }
-      );
+      const createdBookings = await Booking.create([bookingPayload], { session });
       booking = createdBookings[0];
       await session.commitTransaction();
     } else {
-      booking = await Booking.create({
-        user: userId,
-        event: eventId,
-        selectedSeats,
-        numberOfSeats,
-        totalAmount,
-        status: 'CONFIRMED',
-      });
+      booking = await Booking.create(bookingPayload);
     }
 
     // Populate event details for response
-    await booking.populate('event', 'name location date time price image');
+    await booking.populate('event', 'name title description location venue city date time price image backgroundImage heroImage category duration language');
+
+    // Real-time notifications
+    if (booking.status === 'CONFIRMED') {
+      broadcastSeatUpdate({
+        eventId: eventId.toString(),
+        showId: booking.showId || '',
+        seats: selectedSeats,
+        status: 'BOOKED',
+      });
+      broadcastNewBooking(booking);
+    }
 
     return res.status(201).json({
       message: 'Booking created successfully',
       booking: {
         _id: booking._id,
+        bookingReference: booking.bookingReference,
         user: booking.user,
         event: booking.event,
         selectedSeats: booking.selectedSeats,
         numberOfSeats: booking.numberOfSeats,
+        subtotal: booking.subtotal,
+        convenienceFee: booking.convenienceFee,
+        taxes: booking.taxes,
         totalAmount: booking.totalAmount,
         bookingDate: booking.bookingDate,
+        ticketCategory: booking.ticketCategory,
+        customerInfo: booking.customerInfo,
+        paymentStatus: booking.paymentStatus,
+        paymentMethod: booking.paymentMethod,
         status: booking.status,
       },
     });
@@ -188,7 +250,7 @@ export const createBooking = async (req, res, next) => {
 export const getMyBookings = async (req, res, next) => {
   try {
     const bookings = await Booking.find({ user: req.user._id })
-      .populate('event', 'name location date time price image category')
+      .populate('event', 'name title location venue city date time price image backgroundImage heroImage category')
       .sort({ createdAt: -1 })
       .lean();
 
@@ -207,15 +269,18 @@ export const getBookingById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!id || typeof id !== 'string') {
       return res.status(400).json({
-        message: 'Invalid Booking ID format',
+        message: 'Invalid Booking ID parameter',
       });
     }
 
-    const booking = await Booking.findById(id)
+    const isObjectId = mongoose.Types.ObjectId.isValid(id);
+    const query = isObjectId ? { _id: id } : { bookingReference: id };
+
+    const booking = await Booking.findOne(query)
       .populate('user', 'name email role')
-      .populate('event', 'name description location date time price image category');
+      .populate('event', 'name title description location venue city date time price image backgroundImage heroImage category duration genre language');
 
     if (!booking) {
       return res.status(404).json({
@@ -383,7 +448,7 @@ export const getAllBookings = async (req, res, next) => {
 
     const bookings = await Booking.find(filter)
       .populate('user', 'name email role')
-      .populate('event', 'name location date time price category')
+      .populate('event', 'name title location venue city date time price image backgroundImage heroImage category')
       .sort({ createdAt: -1 })
       .lean();
 
@@ -408,3 +473,280 @@ export const getAllBookings = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * @desc    Hold seats temporarily (10 minutes) before payment
+ * @route   POST /api/bookings/hold-seats
+ * @access  Private
+ */
+export const holdSeats = async (req, res, next) => {
+  try {
+    const { eventId, showId, seats } = req.body;
+    const userId = req.user._id;
+
+    if (!eventId || !mongoose.Types.ObjectId.isValid(eventId)) {
+      return res.status(400).json({ message: 'Valid Event ID is required' });
+    }
+    if (!seats || !Array.isArray(seats) || seats.length === 0) {
+      return res.status(400).json({ message: 'Please select at least one seat to hold' });
+    }
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    let seatPool = event.seats;
+    if (showId && event.shows && event.shows.length > 0) {
+      const targetShow = event.shows.id(showId);
+      if (targetShow && targetShow.seats && targetShow.seats.length > 0) {
+        seatPool = targetShow.seats;
+      }
+    }
+
+    const now = new Date();
+    const seatMap = new Map();
+    seatPool.forEach((s) => seatMap.set(s.seatNumber, s));
+
+    for (const seatNum of seats) {
+      const s = seatMap.get(seatNum);
+      if (!s) {
+        return res.status(400).json({ message: `Seat ${seatNum} is invalid.` });
+      }
+      if (s.status === 'BOOKED') {
+        return res.status(400).json({ message: `Seat ${seatNum} is already booked.` });
+      }
+      if (
+        s.status === 'HELD' &&
+        s.heldBy &&
+        s.heldBy.toString() !== userId.toString() &&
+        s.holdExpiresAt &&
+        new Date(s.holdExpiresAt) > now
+      ) {
+        return res.status(400).json({
+          message: `Seat ${seatNum} is currently held by another customer. Please choose another seat.`,
+        });
+      }
+    }
+
+    const holdExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    seats.forEach((seatNum) => {
+      const s = seatMap.get(seatNum);
+      if (s) {
+        s.status = 'HELD';
+        s.heldBy = userId;
+        s.holdExpiresAt = holdExpiresAt;
+      }
+    });
+
+    await event.save();
+
+    broadcastSeatUpdate({
+      eventId: eventId.toString(),
+      showId: showId || '',
+      seats,
+      status: 'HELD',
+      heldBy: userId.toString(),
+      expiresAt: holdExpiresAt,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Seats held successfully for 10 minutes',
+      heldSeats: seats,
+      holdExpiresAt,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc    Release held seats
+ * @route   POST /api/bookings/release-seats
+ * @access  Private
+ */
+export const releaseSeats = async (req, res, next) => {
+  try {
+    const { eventId, showId, seats } = req.body;
+    const userId = req.user._id;
+
+    if (!eventId || !mongoose.Types.ObjectId.isValid(eventId)) {
+      return res.status(400).json({ message: 'Valid Event ID is required' });
+    }
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    let seatPool = event.seats;
+    if (showId && event.shows && event.shows.length > 0) {
+      const targetShow = event.shows.id(showId);
+      if (targetShow && targetShow.seats && targetShow.seats.length > 0) {
+        seatPool = targetShow.seats;
+      }
+    }
+
+    const released = [];
+    seatPool.forEach((s) => {
+      if (
+        (!seats || seats.includes(s.seatNumber)) &&
+        s.status === 'HELD' &&
+        (!s.heldBy || s.heldBy.toString() === userId.toString())
+      ) {
+        s.status = 'AVAILABLE';
+        s.heldBy = null;
+        s.holdExpiresAt = null;
+        released.push(s.seatNumber);
+      }
+    });
+
+    await event.save();
+
+    if (released.length > 0) {
+      broadcastSeatUpdate({
+        eventId: eventId.toString(),
+        showId: showId || '',
+        seats: released,
+        status: 'AVAILABLE',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      releasedSeats: released,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc    Verify ticket by unique Ticket ID or Booking Reference
+ * @route   GET /api/bookings/verify-ticket/:ticketId
+ * @access  Public / Gate / Admin
+ */
+export const verifyTicket = async (req, res, next) => {
+  try {
+    const rawCode = (req.params.ticketId || req.body.ticketId || req.body.code || '').trim();
+    if (!rawCode) {
+      return res.status(400).json({
+        verified: false,
+        verificationStatus: 'INVALID',
+        message: 'Ticket ID or verification code is required.',
+      });
+    }
+
+    // 1. Look up Ticket or Booking
+    let ticket = await Ticket.findOne({
+      $or: [
+        { ticketId: rawCode },
+        { 'verificationPayload.ticketId': rawCode },
+        { barcodeData: rawCode },
+      ],
+    }).populate('booking user event');
+
+    let booking;
+    if (ticket && ticket.booking) {
+      booking = ticket.booking;
+    } else {
+      // Fallback search directly in Booking collection
+      booking = await Booking.findOne({
+        $or: [
+          { ticketId: rawCode },
+          { bookingReference: rawCode },
+          ...(mongoose.Types.ObjectId.isValid(rawCode) ? [{ _id: rawCode }] : []),
+        ],
+      }).populate('user event');
+    }
+
+    if (!booking) {
+      return res.status(404).json({
+        verified: false,
+        verificationStatus: 'INVALID',
+        message: 'No ticket or reservation found matching this code.',
+      });
+    }
+
+    const event = booking.event;
+    const user = booking.user;
+
+    // Requirement:
+    // Only successfully paid bookings can display: VERIFIED
+    // Unpaid, cancelled, expired, or invalid tickets must not be treated as valid tickets.
+    const isPaid = booking.paymentStatus === 'PAID';
+    const isConfirmed = booking.status === 'CONFIRMED';
+
+    if (!isPaid || !isConfirmed) {
+      const reasonStatus = booking.status === 'CANCELLED' ? 'CANCELLED' : 'UNPAID';
+      return res.status(200).json({
+        verified: false,
+        verificationStatus: reasonStatus,
+        message: `This ticket is ${reasonStatus}. Only successfully paid and confirmed reservations are valid passes.`,
+        ticketId: booking.ticketId || ticket?.ticketId || booking.bookingReference,
+        bookingReference: booking.bookingReference,
+        paymentStatus: booking.paymentStatus,
+        bookingStatus: booking.status,
+        event: event
+          ? {
+              name: event.name || event.title,
+              category: event.category,
+              venue: booking.venue || event.venue || event.location,
+              city: booking.city || event.city,
+              date: booking.showDate || event.date,
+              time: booking.showTime || event.time,
+            }
+          : null,
+        user: {
+          name: user?.name || booking.customerInfo?.name || 'Customer',
+          email: user?.email || booking.customerInfo?.email || '',
+        },
+        selectedSeats: booking.selectedSeats || [],
+      });
+    }
+
+    // Fully paid & confirmed ticket
+    return res.status(200).json({
+      verified: true,
+      verificationStatus: 'VERIFIED',
+      message: 'Official TIXORA Digital Pass Verified',
+      ticketId: booking.ticketId || ticket?.ticketId || booking.bookingReference,
+      bookingId: booking._id,
+      bookingReference: booking.bookingReference,
+      event: {
+        id: event?._id,
+        name: event?.name || event?.title || 'Event Reservation',
+        category: event?.category || 'Live Event',
+        venue: booking.venue || event?.venue || event?.location || 'Venue',
+        city: booking.city || event?.city || '',
+        date: booking.showDate || event?.date,
+        time: booking.showTime || event?.time || '',
+        image: event?.image || event?.posterImage,
+        backgroundImage: event?.backgroundImage || event?.heroImage,
+      },
+      user: {
+        id: user?._id,
+        name: user?.name || booking.customerInfo?.name || 'Valued Guest',
+        email: user?.email || booking.customerInfo?.email || '',
+        phone: user?.phoneNumber || booking.customerInfo?.phone || '',
+      },
+      selectedSeats: booking.selectedSeats || [],
+      numberOfSeats: booking.numberOfSeats || booking.selectedSeats?.length || 1,
+      totalAmount: booking.totalAmount,
+      subtotal: booking.subtotal,
+      convenienceFee: booking.convenienceFee,
+      taxes: booking.taxes,
+      ticketCategory: booking.ticketCategory || 'Premium Pass',
+      paymentStatus: booking.paymentStatus,
+      bookingStatus: booking.status,
+      paymentMethod: booking.paymentMethod || 'PhonePe Verified Payment',
+      transactionId: booking.transactionId || booking.phonePeMerchantTxnId,
+      bookingDate: booking.bookingDate || booking.createdAt,
+      verifiedAt: new Date(),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

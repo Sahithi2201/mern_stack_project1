@@ -26,6 +26,7 @@ import ConfirmDialog from '../components/ConfirmDialog.jsx';
 import eventService from '../services/eventService.js';
 import bookingService from '../services/bookingService.js';
 import userService from '../services/userService.js';
+import { getSocket, joinAdminRoom } from '../services/socket.js';
 import { formatCurrency, formatDate } from '../utils/helpers.js';
 
 const AdminDashboard = () => {
@@ -129,6 +130,22 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchDashboardData();
+
+    // Connect to admin real-time room
+    const socket = getSocket();
+    joinAdminRoom();
+
+    const handleRealtimeUpdate = () => {
+      fetchDashboardData();
+    };
+
+    socket.on('new_booking_created', handleRealtimeUpdate);
+    socket.on('seat_status_changed', handleRealtimeUpdate);
+
+    return () => {
+      socket.off('new_booking_created', handleRealtimeUpdate);
+      socket.off('seat_status_changed', handleRealtimeUpdate);
+    };
   }, []);
 
   const handleCreateEvent = async (eventData) => {

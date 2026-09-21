@@ -13,7 +13,7 @@ import '../styles/home.css';
 
 /**
  * TIXORA 100VH CINEMATIC LANDING PAGE
- * "Your Events. Your Seats. Your Moments."
+ * Modern, cinematic entertainment experience with viewport-fitted layout.
  * 
  * Strict layout hierarchy:
  * NAVBAR (Existing Global Navbar: TIXORA logo, Events, Sign In, Get Started)
@@ -25,7 +25,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Tixora — Your Events. Your Seats. Your Moments.';
+    document.title = 'Tixora — Premium Event Ticketing & Reservation';
   }, []);
 
   // Handle Explore Events click with authentication gating
@@ -69,21 +69,20 @@ const Home = () => {
       {/* 2. MAIN CINEMATIC HERO (Fits within viewport) */}
       <main className="cinematic-hero-main">
         <div className="hero-content-grid">
-          {/* Left Column: Eyebrow + 3-Line Headline + Supporting Text + CTA Buttons */}
+          {/* Left Column: Eyebrow + Headline + Supporting Text + CTA Buttons */}
           <div className="hero-left-content">
             <div className="hero-eyebrow">
               <span className="eyebrow-line" />
-              <span>PREMIUM EVENT TICKETING</span>
+              <span>PREMIUM ENTERTAINMENT TICKETING</span>
             </div>
 
             <h1 className="hero-headline">
-              <span className="headline-line-block">Your Events.</span>
-              <span className="headline-line-block">Your Seats.</span>
-              <span className="headline-line-block gold-accent">Your Moments.</span>
+              <span className="headline-line-block">Discover Your</span>
+              <span className="headline-line-block gold-accent">Next Experience</span>
             </h1>
 
             <p className="hero-description">
-              Discover amazing events, choose your perfect seats, and book your next experience in seconds.
+              Movies • Concerts • Sports • Theatre & More across 20+ major cities.
             </p>
 
             <div className="hero-cta-group">

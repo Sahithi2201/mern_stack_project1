@@ -1,12 +1,13 @@
 /* ==========================================================================
    TIXORA - EVENTS PAGE & CATALOG STYLESHEET
-   Theme: GOLD + VELVET + WHITE + BREEZE
+   Cinematic Theme: Deep Velvet Burgundy + Dark Plum + Luxury Gold
    ========================================================================== */
 
 .events-page-container {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+  padding: 16px 20px 64px 20px;
 }
 
 /* 1. Header */
@@ -17,18 +18,19 @@
 
 .events-headline {
   font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
-  font-size: clamp(2.2rem, 3.5vw, 3rem);
-  font-weight: 700;
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 800;
   letter-spacing: -0.025em;
-  color: var(--velvet);
+  color: #FFFFFF;
   margin-bottom: 8px;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
 }
 
 .events-tagline {
   font-size: 1.05rem;
-  color: var(--text-muted);
+  color: #CFC2CA;
   font-weight: 400;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 /* Quick City Filter Pills */
@@ -38,17 +40,18 @@
   justify-content: center;
   gap: 8px;
   flex-wrap: wrap;
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
 .city-pill-btn {
-  background: var(--white);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
+  background: rgba(32, 8, 26, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(214, 168, 58, 0.25);
+  color: #D3C7CE;
   font-size: 13px;
   font-weight: 600;
-  padding: 6px 14px;
+  padding: 7px 16px;
   border-radius: 9999px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -56,15 +59,17 @@
 
 .city-pill-btn:hover {
   border-color: var(--gold);
-  color: var(--velvet);
-  background: var(--cream);
+  color: #FFFFFF;
+  background: rgba(56, 13, 45, 0.9);
+  transform: translateY(-1px);
 }
 
 .city-pill-btn.active {
-  background: var(--velvet);
-  border-color: var(--velvet);
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(74, 18, 53, 0.25);
+  background: linear-gradient(135deg, #D4AF37 0%, #B88722 100%);
+  border-color: #F2CB6B;
+  color: #170414;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(214, 168, 58, 0.4);
 }
 
 /* 2. Large Search Bar (Max Width 780px, Height 54px) */
@@ -77,25 +82,26 @@
 .events-search-bar {
   width: 100%;
   max-width: 780px;
-  height: 54px;
-  background: var(--white);
-  border: 1px solid var(--border);
+  height: 56px;
+  background: rgba(32, 8, 26, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(214, 168, 58, 0.35);
   border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(75, 23, 53, 0.06);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
-  padding: 0 18px;
-  gap: 12px;
+  padding: 0 20px;
+  gap: 14px;
   transition: all 0.2s ease;
 }
 
 .events-search-bar:focus-within {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15), 0 4px 20px rgba(75, 23, 53, 0.08);
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 3px rgba(214, 168, 58, 0.22), 0 8px 30px rgba(0, 0, 0, 0.55);
 }
 
 .search-bar-icon {
-  color: var(--gold);
+  color: var(--gold-bright);
   flex-shrink: 0;
 }
 
@@ -105,17 +111,17 @@
   background: transparent !important;
   box-shadow: none !important;
   padding: 0 !important;
-  font-size: 1rem;
-  color: var(--text);
+  font-size: 1.05rem;
+  color: #FFFFFF;
   height: 100%;
 }
 
 .search-bar-input::placeholder {
-  color: var(--text-light);
+  color: #9C8F97;
 }
 
 .search-bar-clear-btn {
-  color: var(--text-light);
+  color: #A3969E;
   padding: 6px;
   border-radius: 50%;
   display: flex;
@@ -126,17 +132,19 @@
 }
 
 .search-bar-clear-btn:hover {
-  color: var(--velvet);
-  background: var(--breeze);
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-/* 3. Filter Panel (Breeze Container) */
+/* 3. Filter Panel (Cinematic Velvet Container) */
 .events-filter-panel {
-  background: var(--breeze);
-  border: 1px solid #D7ECEA;
+  background: rgba(28, 7, 23, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(214, 168, 58, 0.25);
   border-radius: 18px;
-  padding: 20px;
+  padding: 22px;
   margin-bottom: 36px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
 }
 
 .filter-controls-row {
@@ -152,28 +160,33 @@
 }
 
 .filter-field-label {
-  font-size: 0.8rem;
+  font-size: 0.775rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--velvet);
+  letter-spacing: 0.06em;
+  color: var(--gold-bright);
 }
 
 .filter-input-card {
   width: 100%;
   height: 48px;
-  border-radius: 11px;
-  border: 1px solid var(--border);
-  background-color: var(--white);
+  border-radius: 10px;
+  border: 1px solid rgba(214, 168, 58, 0.25);
+  background-color: rgba(14, 3, 11, 0.85);
   padding: 0 14px;
   font-size: 0.925rem;
-  color: var(--text);
+  color: #FAF7F2;
   transition: all 0.18s ease;
+}
+
+.filter-input-card option {
+  background-color: #1A0718;
+  color: #FAF7F2;
 }
 
 .filter-input-card:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+  box-shadow: 0 0 0 3px rgba(214, 168, 58, 0.2);
 }
 
 .filter-input-card-with-icon {
@@ -185,7 +198,7 @@
 .filter-card-icon {
   position: absolute;
   left: 14px;
-  color: var(--gold-dark);
+  color: var(--gold);
   pointer-events: none;
 }
 
@@ -198,52 +211,55 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 14px;
+  margin-top: 16px;
   padding-top: 14px;
-  border-top: 1px solid rgba(205, 232, 229, 0.8);
+  border-top: 1px solid rgba(214, 168, 58, 0.18);
 }
 
 .filter-count-badge {
   font-size: 0.875rem;
-  color: var(--text-muted);
+  color: #C0B4BD;
 }
 
 .filter-count-badge strong {
-  color: var(--velvet);
+  color: var(--gold-bright);
 }
 
 .btn-filter-reset {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--velvet);
+  color: var(--gold-bright);
   font-weight: 600;
   font-size: 0.875rem;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: var(--radius-xs);
   cursor: pointer;
   transition: all 0.15s ease;
+  background: rgba(214, 168, 58, 0.1);
+  border: 1px solid rgba(214, 168, 58, 0.25);
 }
 
 .btn-filter-reset:hover {
-  color: var(--gold-dark);
-  background-color: rgba(75, 23, 53, 0.06);
+  color: #FFFFFF;
+  background: rgba(214, 168, 58, 0.2);
+  border-color: var(--gold);
 }
 
-/* 4. Event Grid (3 columns on desktop, 4 on wide, 2 tablet, 1 mobile) */
+/* 4. Event Grid (4 columns on desktop, 3 on tablet, 1 on mobile) */
 .events-display-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
 
-@media (min-width: 1400px) {
+@media (max-width: 1180px) {
   .events-display-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .filter-controls-row {
     grid-template-columns: repeat(2, 1fr);
   }

@@ -26,6 +26,7 @@ const Login = () => {
   const [showGoogleModal, setShowGoogleModal] = useState(false);
   const [googleEmail, setGoogleEmail] = useState('');
   const [googleError, setGoogleError] = useState('');
+  const [showForgotInfo, setShowForgotInfo] = useState(false);
 
   // Submission & feedback state
   const [error, setError] = useState('');
@@ -125,7 +126,7 @@ const Login = () => {
       <div className="auth-card-header">
         <h1 className="auth-heading">Welcome back</h1>
         <p className="auth-subheading">
-          Sign in to continue<br />to Tixora
+          Sign in to continue to Tixora
         </p>
       </div>
 
@@ -133,7 +134,7 @@ const Login = () => {
       {error && (
         <div
           className="alert-error-banner"
-          style={{ marginBottom: '18px', textAlign: 'left' }}
+          style={{ marginBottom: '14px', textAlign: 'left' }}
           role="alert"
         >
           <AlertCircle size={18} style={{ flexShrink: 0 }} aria-hidden="true" />
@@ -166,9 +167,18 @@ const Login = () => {
 
         {/* Password Field */}
         <div className="form-group-block">
-          <label className="form-label-text" htmlFor="signin-password">
-            Password
-          </label>
+          <div className="form-label-row">
+            <label className="form-label-text" htmlFor="signin-password">
+              Password
+            </label>
+            <button
+              type="button"
+              className="auth-forgot-link"
+              onClick={() => setShowForgotInfo(true)}
+            >
+              Forgot password?
+            </button>
+          </div>
           <div className="form-input-with-icon">
             <Lock size={18} className="form-icon-prefix" aria-hidden="true" />
             <input
@@ -256,9 +266,40 @@ const Login = () => {
       <div className="auth-footer-prompt">
         <span>Don't have an account? </span>
         <Link to="/register" className="auth-accent-link">
-          Create account
+          Create Account
         </Link>
       </div>
+
+      {/* Forgot Password Helper Modal */}
+      {showForgotInfo && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowForgotInfo(false)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="modal-content-card"
+            style={{ maxWidth: '400px', padding: '24px' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--velvet-dark)', marginBottom: '10px' }}>
+              Account Assistance
+            </h3>
+            <p style={{ fontSize: '0.92rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '20px' }}>
+              For seamless access without remembering passwords, you can sign in directly with Google. For further account help, contact support@tixora.com.
+            </p>
+            <button
+              type="button"
+              className="btn-auth-primary"
+              style={{ height: '40px' }}
+              onClick={() => setShowForgotInfo(false)}
+            >
+              Understood
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Google Sign-In Identity Modal */}
       {showGoogleModal && (

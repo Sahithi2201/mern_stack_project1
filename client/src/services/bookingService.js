@@ -2,12 +2,24 @@ import api from './api.js';
 
 /**
  * Booking Management Service
- * Communicates with backend ticket booking, cancellation, and retrieval endpoints
+ * Communicates with backend ticket booking, temporary hold, cancellation, and retrieval endpoints
  */
 
 // Create a new booking with selected seats
 export const createBooking = async (bookingData) => {
   const response = await api.post('/bookings', bookingData);
+  return response.data;
+};
+
+// Temporarily hold seats for 10 minutes
+export const holdSeats = async (data) => {
+  const response = await api.post('/bookings/hold-seats', data);
+  return response.data;
+};
+
+// Release held seats
+export const releaseSeats = async (data) => {
+  const response = await api.post('/bookings/release-seats', data);
   return response.data;
 };
 
@@ -37,6 +49,8 @@ export const getAllBookings = async (params = {}) => {
 
 export default {
   createBooking,
+  holdSeats,
+  releaseSeats,
   getMyBookings,
   getBookingById,
   cancelBooking,

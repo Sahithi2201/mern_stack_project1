@@ -13,58 +13,93 @@
  * Total: Exactly 100 Events distributed across all 20 cities (5 events per city).
  */
 
-const baseImages = {
+export const categoryBackgrounds = {
   movie: [
-    'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1574267432553-4b4628081c31?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1574267432553-4b4628081c31?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?auto=format&fit=crop&w=1920&q=85',
   ],
   concert: [
-    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
+    '/live_concert_hero.jpg',
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=1920&q=85',
   ],
   sports: [
-    'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=800&q=80',
-  ],
-  comedy: [
-    'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1527224857830-43a7acc85260?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1920&q=85',
   ],
   theatre: [
-    'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=1920&q=85',
   ],
-  festival: [
-    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+  comedy: [
+    'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1527224857830-43a7acc85260?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=85',
+  ],
+  cultural: [
+    'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1920&q=85',
   ],
   conference: [
-    'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1920&q=85',
   ],
   college: [
-    'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=85',
   ],
   family: [
-    'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1920&q=85',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1920&q=85',
   ],
 };
 
+const baseImages = {
+  movie: categoryBackgrounds.movie,
+  concert: categoryBackgrounds.concert,
+  sports: categoryBackgrounds.sports,
+  comedy: categoryBackgrounds.comedy,
+  theatre: categoryBackgrounds.theatre,
+  festival: categoryBackgrounds.cultural,
+  conference: categoryBackgrounds.conference,
+  college: categoryBackgrounds.college,
+  family: categoryBackgrounds.family,
+};
+
 const rawEvents = [
-  // ===================== 1. MUMBAI (5 events) =====================
+  // ===================== 1. MUMBAI (6 events) =====================
+  {
+    name: 'Sunburn Arena: World DJ Tour',
+    description: 'Premier electronic music festival arena featuring world-class visual production, laser displays, and headline international DJs.',
+    category: 'Concert',
+    genre: 'EDM / Dance',
+    language: 'English',
+    city: 'Mumbai',
+    venue: 'NSCI Dome, Worli',
+    daysAhead: 8,
+    time: '18:00',
+    duration: '5h 00m',
+    price: 2500,
+    totalSeats: 60,
+    image: '/live_concert_hero.jpg',
+    backgroundImage: '/live_concert_hero.jpg',
+  },
   {
     name: 'Jawan: Special IMAX Director Cut Screening',
     description: 'Special premiere screening with 4K laser projection and Atmos surround sound. High-octane action spectacle.',
@@ -1614,6 +1649,21 @@ export const get100Events = () => {
   return rawEvents.map((item, index) => {
     const eventDate = new Date(now + item.daysAhead * 24 * 60 * 60 * 1000);
     const location = `${item.venue}, ${item.city}`;
+    
+    // Resolve category background image pool
+    const catLower = (item.category || '').toLowerCase();
+    let bgPool = categoryBackgrounds.concert;
+    if (catLower.includes('movie')) bgPool = categoryBackgrounds.movie;
+    else if (catLower.includes('concert')) bgPool = categoryBackgrounds.concert;
+    else if (catLower.includes('sport')) bgPool = categoryBackgrounds.sports;
+    else if (catLower.includes('theatre')) bgPool = categoryBackgrounds.theatre;
+    else if (catLower.includes('comedy')) bgPool = categoryBackgrounds.comedy;
+    else if (catLower.includes('cultur') || catLower.includes('fest')) bgPool = categoryBackgrounds.cultural;
+    else if (catLower.includes('confer')) bgPool = categoryBackgrounds.conference;
+    else if (catLower.includes('college')) bgPool = categoryBackgrounds.college;
+    else if (catLower.includes('family')) bgPool = categoryBackgrounds.family;
+
+    const assignedBg = item.backgroundImage || bgPool[index % bgPool.length];
 
     return {
       name: item.name,
@@ -1630,7 +1680,9 @@ export const get100Events = () => {
       price: item.price,
       totalSeats: item.totalSeats,
       availableSeats: item.totalSeats,
-      image: item.image,
+      image: item.image || assignedBg,
+      backgroundImage: assignedBg,
+      heroImage: assignedBg,
     };
   });
 };

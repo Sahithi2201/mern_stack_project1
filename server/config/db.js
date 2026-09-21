@@ -8,14 +8,20 @@ let mongoMemoryServer = null;
 
 /**
  * Connect to MongoDB using Mongoose ODM
- * Tries configured MONGO_URI first; if unavailable, automatically spins up
+ * Tries configured MONGO_URI first; if unavailable or unconfigured, automatically spins up
  * an embedded MongoMemoryServer so the app runs smoothly without external setup.
  */
+const isValidMongoUri = (uri) => {
+  if (!uri || typeof uri !== 'string') return false;
+  const trimmed = uri.trim();
+  return trimmed.startsWith('mongodb://') || trimmed.startsWith('mongodb+srv://');
+};
+
 const connectDB = async () => {
   const configuredURI = process.env.MONGO_URI;
 
-  // 1. If explicit non-local URI provided, try connecting
-  if (configuredURI && !configuredURI.includes('127.0.0.1:27017') && !configuredURI.includes('localhost:27017')) {
+  // 1. If explicit non-local valid URI provided, try connecting
+  if (isValidMongoUri(configuredURI) && !configuredURI.includes('127.0.0.1:27017') && !configuredURI.includes('localhost:27017')) {
     try {
       const conn = await mongoose.connect(configuredURI, { serverSelectionTimeoutMS: 3000 });
       console.log(`=========================================`);
@@ -30,8 +36,9 @@ const connectDB = async () => {
   }
 
   // 2. Try local mongod instance with a quick timeout (1500ms)
+  const localUri = isValidMongoUri(configuredURI) ? configuredURI : 'mongodb://127.0.0.1:27017/ticket_management_system';
   try {
-    const conn = await mongoose.connect(configuredURI || 'mongodb://127.0.0.1:27017/ticket_management_system', {
+    const conn = await mongoose.connect(localUri, {
       serverSelectionTimeoutMS: 1500,
     });
     console.log(`=========================================`);
